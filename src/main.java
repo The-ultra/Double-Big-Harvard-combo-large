@@ -73,6 +73,9 @@ public class main {
     }
 
     public void add(int r1, int r2) {
+
+       System.out.println("change");
+
         // adds r1 to r2 and then store in r1 location
 
 
