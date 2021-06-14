@@ -3,28 +3,25 @@ import java.util.ArrayList;
 public class executor {
 
 
-    Short instructionMemory[] =  new Short[1023];
-    Byte dataMemory[] =          new Byte[2047];
-    Short[] registers =          new Short[63];
-    Short[] statusReg =          new Short[7];
+    Short instructionMemory[] = new Short[1023];
+    Byte dataMemory[] = new Byte[2047];
+    Short[] registers = new Short[63];
+    Short[] statusReg = new Short[7];
     int programCounter = 0;
 
-    public void executor(){
+    public void executor() {
 
 
         function();
     }
 
 
+    public void function() {
 
-
-
-    public void function(){
-
-        ArrayList decoded= null ;
+        ArrayList decoded = null;
         Short fetchGetter = null;
 
-        while(programCounter<instructionMemory.length-1) {
+        while (programCounter < instructionMemory.length - 1) {
             execute(decoded);
             decoded = decode(fetchGetter);
             fetchGetter = fetch();
@@ -32,12 +29,11 @@ public class executor {
         }
 
 
-
     }
+
     public short fetch() {
 
-            return instructionMemory[programCounter];
-
+        return instructionMemory[programCounter];
 
 
     }
@@ -52,11 +48,10 @@ public class executor {
         short imm;
 
 
-
-        opcode =  (short)       ((instruction & 0b1111000000000000) >> 12);
-        r1 =      (short)       ((instruction & 0b0000111111000000) >> 6 );
-        r2 =      (short)       ((instruction & 0b0000000000111111) >> 0 );
-        imm =     (short)       ((instruction & 0b0000000000111111) >> 0 );
+        opcode = (short) ((instruction & 0b1111000000000000) >> 12);
+        r1 = (short) ((instruction & 0b0000111111000000) >> 6);
+        r2 = (short) ((instruction & 0b0000000000111111) >> 0);
+        imm = (short) ((instruction & 0b0000000000111111) >> 0);
 
         output.add(opcode);     //pos 0
         output.add(r1);         //pos 1
@@ -103,15 +98,13 @@ public class executor {
 
         }
     }
+
     public void add(int r1, int r2) {
 
 
-
-            System.out.println("change");
+        System.out.println("change");
 
         // adds r1 to r2 and then store in r1 location
-
-
 
 
     }
