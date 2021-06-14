@@ -5,11 +5,15 @@ public class executor {
 
     Short instructionMemory[] = new Short[1023];
     Byte dataMemory[] = new Byte[2047];
-    Short[] registers = new Short[63];
+    Byte[] registers = new Byte[63];
     Short[] statusReg = new Short[7];
     int programCounter = 0;
 
     public void executor() {
+
+        
+
+
 
 
         function();
@@ -49,9 +53,9 @@ public class executor {
 
 
         opcode = (short) ((instruction & 0b1111000000000000) >> 12);
-        r1 = (short) ((instruction & 0b0000111111000000) >> 6);
-        r2 = (short) ((instruction & 0b0000000000111111) >> 0);
-        imm = (short) ((instruction & 0b0000000000111111) >> 0);
+        r1 = (short)     ((instruction & 0b0000111111000000) >> 6);
+        r2 = (short)     ((instruction & 0b0000000000111111) >> 0);
+        imm = (short)    ((instruction & 0b0000000000111111) >> 0);
 
         output.add(opcode);     //pos 0
         output.add(r1);         //pos 1
@@ -117,7 +121,7 @@ public class executor {
 
     }
 
-    public void dataRegWriter(int rPos, short value) {
+    public void dataRegWriter(int rPos, Byte value) {
         registers[rPos] = value;
     }
 
