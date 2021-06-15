@@ -3,28 +3,25 @@ import java.util.ArrayList;
 public class executor {
 
 
-    Short instructionMemory[] =  new Short[1023];
-    Byte dataMemory[] =          new Byte[2047];
-    Short[] registers =          new Short[63];
-    Short[] statusReg =          new Short[7];
+    Short instructionMemory[] = new Short[1023];
+    Byte dataMemory[] = new Byte[2047];
+    Byte[] registers = new Byte[63];
+    Short[] statusReg = new Short[7];
     int programCounter = 0;
 
-    public void executor(){
+    public void executor() {
 
 
         function();
     }
 
 
+    public void function() {
 
-
-
-    public void function(){
-
-        ArrayList decoded= null ;
+        ArrayList decoded = null;
         Short fetchGetter = null;
 
-        while(programCounter<instructionMemory.length-1) {
+        while (programCounter < instructionMemory.length - 1) {
             execute(decoded);
             decoded = decode(fetchGetter);
             fetchGetter = fetch();
@@ -32,12 +29,11 @@ public class executor {
         }
 
 
-
     }
+
     public short fetch() {
 
-            return instructionMemory[programCounter];
-
+        return instructionMemory[programCounter];
 
 
     }
@@ -52,11 +48,10 @@ public class executor {
         short imm;
 
 
-
-        opcode =  (short)       ((instruction & 0b1111000000000000) >> 12);
-        r1 =      (short)       ((instruction & 0b0000111111000000) >> 6 );
-        r2 =      (short)       ((instruction & 0b0000000000111111) >> 0 );
-        imm =     (short)       ((instruction & 0b0000000000111111) >> 0 );
+        opcode = (short) ((instruction & 0b1111000000000000) >> 12);
+        r1 = (short) ((instruction & 0b0000111111000000) >> 6);
+        r2 = (short) ((instruction & 0b0000000000111111) >> 0);
+        imm = (short) ((instruction & 0b0000000000111111) >> 0);
 
         output.add(opcode);     //pos 0
         output.add(r1);         //pos 1
@@ -103,28 +98,220 @@ public class executor {
 
         }
     }
-    public void add(int r1, int r2) {
+
+    public void add(Short r1, Short r2) {
+
+        Byte num1 = dataRegFetcher(r1);
+        Byte num2 = dataRegFetcher(r2);
+        boolean check1;
+        boolean check2;
+
+        int temp1 = (int) num1 + (int) num2;
+        //Check Carry
+        if (temp1 > 256)
+            setCarryFlag((short) 1);
+        else
+            setCarryFlag((short) 0);
+        //Check Overflow
+        if ((int) num1 > 0 && (int) num2 > 0)
+            twoComplementOverflowFlag((short) 1);
+        if ((int) num1 < 0 && (int) num2 < 0)
+            twoComplementOverflowFlag((short) 1);
+        if ((int) num1 > 0 && (int) num2 < 0)
+            twoComplementOverflowFlag((short) 0);
+        if ((int) num1 < 0 && (int) num2 > 0)
+            twoComplementOverflowFlag((short) 0);
+        //Check negative
+        if (temp1 < 0)
+            setNegativeFlag((short) 1);
+        else
+            setNegativeFlag((short) 0);
+        //Check sign
+        if (negativeFlagFetch() == 1) {
+            check1 = true;
+        } else {
+            check1 = false;
+        }
+        if (twoComplementOverflowFlagFetch() == 1) {
+            check2 = true;
+        } else {
+            check2 = false;
+        }
+        if ((check1 ^ check2))
+            setSignFlag((short) 1);
+        else
+            setSignFlag((short) 0);
+        //Check Zero
+        if (temp1 == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
 
 
-
-            System.out.println("change");
+        System.out.println("change");
 
         // adds r1 to r2 and then store in r1 location
+    }
 
+    public void sub(short r1, short r2) {
 
+        Byte num1 = dataRegFetcher(r1);
+        Byte num2 = dataRegFetcher(r2);
+        boolean check1;
+        boolean check2;
 
+        int temp = (int) num1 - (int) num2;
 
+        //Check Carry
+        if (temp > 256)
+            setCarryFlag((short) 1);
+        else
+            setCarryFlag((short) 0);
+        //Check Overflow
+        if ((int) num1 > 0 && (int) num2 > 0)
+            twoComplementOverflowFlag((short) 1);
+        if ((int) num1 < 0 && (int) num2 < 0)
+            twoComplementOverflowFlag((short) 1);
+        if ((int) num1 > 0 && (int) num2 < 0)
+            twoComplementOverflowFlag((short) 0);
+        if ((int) num1 < 0 && (int) num2 > 0)
+            twoComplementOverflowFlag((short) 0);
+        //Check negative
+        if (temp < 0)
+            setNegativeFlag((short) 1);
+        else
+            setNegativeFlag((short) 0);
+        //Check sign
+        if (negativeFlagFetch() == 1) {
+            check1 = true;
+        } else {
+            check1 = false;
+        }
+        if (twoComplementOverflowFlagFetch() == 1) {
+            check2 = true;
+        } else {
+            check2 = false;
+        }
+        if ((check1 ^ check2))
+            setSignFlag((short) 1);
+        else
+            setSignFlag((short) 0);
+        //Check Zero
+        if (temp == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
+    }
+
+    public void mult(short r1, short r2) {
+        Byte num1 = dataRegFetcher(r1);
+        Byte num2 = dataRegFetcher(r2);
+        boolean check1;
+        boolean check2;
+
+        int temp = (int) num1 * (int) num2;
+
+        //Check Carry
+        if (temp > 256)
+            setCarryFlag((short) 1);
+        else
+            setCarryFlag((short) 0);
+        //Check Overflow
+        if ((int) num1 > 0 && (int) num2 > 0)
+            twoComplementOverflowFlag((short) 1);
+        if ((int) num1 < 0 && (int) num2 < 0)
+            twoComplementOverflowFlag((short) 1);
+        if ((int) num1 > 0 && (int) num2 < 0)
+            twoComplementOverflowFlag((short) 0);
+        if ((int) num1 < 0 && (int) num2 > 0)
+            twoComplementOverflowFlag((short) 0);
+        //Check negative
+        if (temp < 0)
+            setNegativeFlag((short) 1);
+        else
+            setNegativeFlag((short) 0);
+        //Check sign
+        if (negativeFlagFetch() == 1) {
+            check1 = true;
+        } else {
+            check1 = false;
+        }
+        if (twoComplementOverflowFlagFetch() == 1) {
+            check2 = true;
+        } else {
+            check2 = false;
+        }
+        if ((check1 ^ check2))
+            setSignFlag((short) 1);
+        else
+            setSignFlag((short) 0);
+        //Check Zero
+        if (temp == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
+    }
+
+    public void loadImm(short r1, short imm) {
+
+    }
+
+    public void branchIfEq(short r1, short imm) {
+        if (r1 == 0) {
+            programCounter = programCounter + 1 + imm;
+        }
+    }
+
+    public void and(short r1, short r2) {
+        Byte num1 = dataRegFetcher(r1);
+        Byte num2 = dataRegFetcher(r2);
+
+        int temp1 = num1 & num2;
+        //Check negative
+        if (temp1 < 0)
+            setNegativeFlag((short) 1);
+        else
+            setNegativeFlag((short) 0);
+        if (temp1 == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
+    }
+
+    public void or(short r1, short r2) {
+        Byte num1 = dataRegFetcher(r1);
+        Byte num2 = dataRegFetcher(r2);
+
+        int temp1 = num1 | num2;
+        //Check negative
+        if (temp1 < 0)
+            setNegativeFlag((short) 1);
+        else
+            setNegativeFlag((short) 0);
+        if (temp1 == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
+    }
+
+    public void jumpReg(short r1, short r2) {
+        Byte num1 = dataRegFetcher(r1);
+        Byte num2 = dataRegFetcher(r2);
+        int x = (int) num1;
+        int y = (int) num2;
+        int k = Integer.valueOf(String.valueOf(x) + String.valueOf(y));
+        programCounter = k;
     }
 
 
     //----------------------------------------------------------------------------------------------------------------------
     //fetchers and writers.... why? someone would ask, well it's for pipelining. just use them in the program
-    public int dataRegFetcher(int rPos) {
+    public Byte dataRegFetcher(Short rPos) {
         return registers[rPos];
 
     }
 
-    public void dataRegWriter(int rPos, short value) {
+    public void dataRegWriter(int rPos, Byte value) {
         registers[rPos] = value;
     }
 
