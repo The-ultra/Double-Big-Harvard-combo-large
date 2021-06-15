@@ -147,7 +147,7 @@ public class executor {
         else
             setZeroFlag((short) 0);
 
-
+        registers[r1] = (byte)temp1;
         System.out.println("change");
 
         // adds r1 to r2 and then store in r1 location
@@ -201,6 +201,8 @@ public class executor {
             setZeroFlag((short) 1);
         else
             setZeroFlag((short) 0);
+
+        registers[r1] = (byte)temp;
     }
 
     public void mult(short r1, short r2) {
@@ -250,13 +252,15 @@ public class executor {
             setZeroFlag((short) 1);
         else
             setZeroFlag((short) 0);
+
+        registers[r1] = (byte)temp;
     }
 
-    public void loadImm(short r1, short imm) {
-
+    public void loadImm(short r1, Byte imm) {
+            registers[r1] = imm;
     }
 
-    public void branchIfEq(short r1, short imm) {
+    public void branchIfEq(short r1, Byte imm) {
         if (r1 == 0) {
             programCounter = programCounter + 1 + imm;
         }
@@ -276,6 +280,8 @@ public class executor {
             setZeroFlag((short) 1);
         else
             setZeroFlag((short) 0);
+
+        registers[r1] = (byte)temp1;
     }
 
     public void or(short r1, short r2) {
@@ -292,6 +298,8 @@ public class executor {
             setZeroFlag((short) 1);
         else
             setZeroFlag((short) 0);
+
+        registers[r1] = (byte)temp1;
     }
 
     public void jumpReg(short r1, short r2) {
