@@ -1,16 +1,23 @@
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class executor {
 
 
-    Short instructionMemory[] = new Short[1023];
-    Byte dataMemory[] = new Byte[2047];
-    Short[] registers = new Short[63];
+    Short instructionMemory[] = new Short[10230];
+    Byte   dataMemory[] = new Byte[2047];
+    Byte[] registers = new Byte[63];
     Short[] statusReg = new Short[7];
     int programCounter = 0;
 
     public void executor() {
 
+
+
+
+        parser("test.txt");
 
         function();
     }
@@ -29,7 +36,680 @@ public class executor {
         }
 
 
+    } public void parser(String filename) {
+
+
+
+
+        try {
+            //the file to be opened for reading
+            FileInputStream fis = new FileInputStream(filename);
+            Scanner sc = new Scanner(fis);    //file to be scanned
+            // returns true if there is another line to read
+            int instructionLocation= 0;
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] parts = line.split(" ");
+                if(parts!= null) {
+                    parsing(parts,instructionLocation);
+                    instructionLocation++;
+                    //returns the line that was skipped
+                }
+            }
+            sc.close();     //closes the scanner
+        } catch (IOException e) {
+
+            System.out.print("end of lines");
+        }
     }
+
+            public void parsing(String[] parts,int location){
+        switch (parts[0]){
+
+            case "ADD":
+                parseAdd(parts[1],parts[2],location);
+                break;
+            case "SUB":
+                parseSub(parts[1],parts[2],location);
+                break;
+            case "MUL":
+                parseMul(parts[1],parts[2],location);
+                break;
+            case "LDI":
+                parseLDI(parts[1],parts[2],location);
+                break;
+            case "BEQZ":
+                parseBEQZ(parts[1],parts[2],location);
+                break;
+            case "AND":
+                parseAnd(parts[1],parts[2],location);
+                break;
+            case "OR":
+                parseOr(parts[1],parts[2],location);
+                break;
+            case "JR":
+                parseJR(parts[1],parts[2],location);
+                break;
+            case "SLC":
+                parseSLC(parts[1],parts[2],location);
+                break;
+            case "SRC":
+                parseSRC(parts[1],parts[2],location);
+                break;
+            case "LB":
+                parseLB(parts[1],parts[2],location);
+                break;
+            case "SB":
+                parseSB(parts[1],parts[2],location);
+                break;
+
+        }
+}
+    public void parseAdd(String r1,String r2,int location){
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2.substring(1);
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "0000" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+}
+public void parseSub(String r1, String r2,int location){
+
+
+    String addR1 = r1.substring(1);
+    String addR2 = r2.substring(1);
+    int addTheR1 = Integer.parseInt(addR1);
+    int addTheR2 = Integer.parseInt(addR2);
+    String addStr1 = Integer.toBinaryString(addTheR1);
+    if((Integer.parseInt(addStr1)<=(2^0))){
+        addStr1= "00000"+addStr1;
+    }
+    if((Integer.parseInt(addStr1)<=(2^1))){
+        addStr1= "0000"+addStr1;
+    }
+    if((Integer.parseInt(addStr1)<=(2^3))){
+        addStr1= "000"+addStr1;
+    }
+    if((Integer.parseInt(addStr1)<=(2^3))){
+        addStr1= "000"+addStr1;
+    }     if((Integer.parseInt(addStr1)<=(2^4))){
+        addStr1= "00"+addStr1;
+    }
+    if((Integer.parseInt(addStr1)<=(2^5))){
+        addStr1= "0"+addStr1;
+    }
+
+
+    String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+    if((Integer.parseInt(addStr2)<=(2^0))){
+        addStr2= "00000"+addStr2;
+    }
+    if((Integer.parseInt(addStr2)<=(2^1))){
+        addStr2= "0000"+addStr2;
+    }
+    if((Integer.parseInt(addStr2)<=(2^3))){
+        addStr2= "000"+addStr2;
+    }
+    if((Integer.parseInt(addStr2)<=(2^3))){
+        addStr2= "000"+addStr2;
+    }     if((Integer.parseInt(addStr1)<=(2^4))){
+        addStr2= "00"+addStr2;
+    }
+    if((Integer.parseInt(addStr2)<=(2^5))){
+        addStr2= "0"+addStr2;
+    }
+    String addFinalThing = "0001" + addStr1 + addStr2;
+    instructionMemory[location]= Short.parseShort(addFinalThing,2);
+}
+
+    public void parseMul(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2.substring(1);
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "0010" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+
+    public void parseLDI(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2;
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "0011" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+
+    public void parseBEQZ(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2;
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "0100" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+    public void parseAnd(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2.substring(1);
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "0101" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+    public void parseOr(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2.substring(1);
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "0110" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+    public void parseJR(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2.substring(1);
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "0111" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+    public void parseSLC(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2;
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "1000" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+    public void parseSRC(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2;
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "1001" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+    public void parseLB(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2;
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "1010" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+    public void parseSB(String r1, String r2,int location){
+
+
+        String addR1 = r1.substring(1);
+        String addR2 = r2;
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
+
+
+        String addStr2 =Integer.toBinaryString(addTheR2);
+
+
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "1011" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
+    }
+
+
+
 
     public short fetch() {
 
@@ -49,9 +729,9 @@ public class executor {
 
 
         opcode = (short) ((instruction & 0b1111000000000000) >> 12);
-        r1 = (short) ((instruction & 0b0000111111000000) >> 6);
-        r2 = (short) ((instruction & 0b0000000000111111) >> 0);
-        imm = (short) ((instruction & 0b0000000000111111) >> 0);
+        r1 = (short)     ((instruction & 0b0000111111000000) >> 6);
+        r2 = (short)     ((instruction & 0b0000000000111111) >> 0);
+        imm = (short)    ((instruction & 0b0000000000111111) >> 0);
 
         output.add(opcode);     //pos 0
         output.add(r1);         //pos 1
@@ -117,7 +797,7 @@ public class executor {
 
     }
 
-    public void dataRegWriter(int rPos, short value) {
+    public void dataRegWriter(int rPos, Byte value) {
         registers[rPos] = value;
     }
 
