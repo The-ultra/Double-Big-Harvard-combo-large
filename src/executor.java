@@ -311,13 +311,62 @@ public class executor {
         programCounter = k;
     }
     
-//    public void loadByte(short R1) {
-//    	
-//    }
-//    
-//    public void storeByte(short R1) {
-//    	
-//    }
+public void loadByte(short R1, int address) {
+        R1 = (short) dataMemoryFetcher(address);
+        byte r1 = (byte)R1;
+        dataRegWriter(R1, r1);
+    }
+
+    public void storeByte(short R1, int address) {
+        byte r1;
+        r1 = dataRegFetcher(R1);
+        dataMemoryWriter(address, r1);
+
+    }
+
+    public void ShiftRightCircular(short R1, short imm){
+
+        Boolean check;
+
+        int num = dataRegFetcher(R1);
+        int shifted = (num>> imm | num<< 32-imm) -1;
+
+        if (negativeFlagFetch() == 1) {
+            check = true;
+        } else {
+            check = false;
+        }
+
+        if (shifted == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
+
+        dataRegWriter(R1, (byte) shifted);
+
+    }
+
+    public void ShiftLeftCircular(short R1, short imm){
+
+        Boolean check = false;
+
+        int num = dataRegFetcher(R1);
+        int shifted = (num<<imm | num>> 32-imm)-1;
+
+        if (negativeFlagFetch() == 1) {
+            check = true;
+        } else {
+            check = false;
+        }
+
+        if (shifted == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
+
+        dataRegWriter(R1, (byte) shifted);
+
+    }
 
 
     //----------------------------------------------------------------------------------------------------------------------
