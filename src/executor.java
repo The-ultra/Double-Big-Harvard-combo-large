@@ -63,7 +63,7 @@ public class executor {
         }
     }
 
-            public void parsing(String[] parts,int location){
+    public void parsing(String[] parts,int location){
         switch (parts[0]){
 
             case "ADD":
@@ -104,7 +104,7 @@ public class executor {
                 break;
 
         }
-}
+    }
     public void parseAdd(String r1,String r2,int location){
 
         String addR1 = r1.substring(1);
@@ -153,57 +153,57 @@ public class executor {
         }
         String addFinalThing = "0000" + addStr1 + addStr2;
         instructionMemory[location]= Short.parseShort(addFinalThing,2);
-}
-public void parseSub(String r1, String r2,int location){
+    }
+    public void parseSub(String r1, String r2,int location){
 
 
-    String addR1 = r1.substring(1);
-    String addR2 = r2.substring(1);
-    int addTheR1 = Integer.parseInt(addR1);
-    int addTheR2 = Integer.parseInt(addR2);
-    String addStr1 = Integer.toBinaryString(addTheR1);
-    if((Integer.parseInt(addStr1)<=(2^0))){
-        addStr1= "00000"+addStr1;
-    }
-    if((Integer.parseInt(addStr1)<=(2^1))){
-        addStr1= "0000"+addStr1;
-    }
-    if((Integer.parseInt(addStr1)<=(2^3))){
-        addStr1= "000"+addStr1;
-    }
-    if((Integer.parseInt(addStr1)<=(2^3))){
-        addStr1= "000"+addStr1;
-    }     if((Integer.parseInt(addStr1)<=(2^4))){
-        addStr1= "00"+addStr1;
-    }
-    if((Integer.parseInt(addStr1)<=(2^5))){
-        addStr1= "0"+addStr1;
-    }
+        String addR1 = r1.substring(1);
+        String addR2 = r2.substring(1);
+        int addTheR1 = Integer.parseInt(addR1);
+        int addTheR2 = Integer.parseInt(addR2);
+        String addStr1 = Integer.toBinaryString(addTheR1);
+        if((Integer.parseInt(addStr1)<=(2^0))){
+            addStr1= "00000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^1))){
+            addStr1= "0000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^3))){
+            addStr1= "000"+addStr1;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr1= "00"+addStr1;
+        }
+        if((Integer.parseInt(addStr1)<=(2^5))){
+            addStr1= "0"+addStr1;
+        }
 
 
-    String addStr2 =Integer.toBinaryString(addTheR2);
+        String addStr2 =Integer.toBinaryString(addTheR2);
 
 
-    if((Integer.parseInt(addStr2)<=(2^0))){
-        addStr2= "00000"+addStr2;
+        if((Integer.parseInt(addStr2)<=(2^0))){
+            addStr2= "00000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^1))){
+            addStr2= "0000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^3))){
+            addStr2= "000"+addStr2;
+        }     if((Integer.parseInt(addStr1)<=(2^4))){
+            addStr2= "00"+addStr2;
+        }
+        if((Integer.parseInt(addStr2)<=(2^5))){
+            addStr2= "0"+addStr2;
+        }
+        String addFinalThing = "0001" + addStr1 + addStr2;
+        instructionMemory[location]= Short.parseShort(addFinalThing,2);
     }
-    if((Integer.parseInt(addStr2)<=(2^1))){
-        addStr2= "0000"+addStr2;
-    }
-    if((Integer.parseInt(addStr2)<=(2^3))){
-        addStr2= "000"+addStr2;
-    }
-    if((Integer.parseInt(addStr2)<=(2^3))){
-        addStr2= "000"+addStr2;
-    }     if((Integer.parseInt(addStr1)<=(2^4))){
-        addStr2= "00"+addStr2;
-    }
-    if((Integer.parseInt(addStr2)<=(2^5))){
-        addStr2= "0"+addStr2;
-    }
-    String addFinalThing = "0001" + addStr1 + addStr2;
-    instructionMemory[location]= Short.parseShort(addFinalThing,2);
-}
 
     public void parseMul(String r1, String r2,int location){
 
@@ -767,6 +767,7 @@ public void parseSub(String r1, String r2,int location){
             case 7:
                 break;
             case 8:
+
                 break;
             case 9:
                 break;
@@ -788,6 +789,83 @@ public void parseSub(String r1, String r2,int location){
 
 
     }
+
+    public void ShiftLeftCircular(int r1, int imm){
+
+        Boolean check = false;
+
+        int num = dataMemoryFetcher(r1);
+        int shifted = (num<<imm | num>> 32-imm)-1;
+
+        if (shifted > 256)
+            setCarryFlag((short) 1);
+        else
+            setCarryFlag((short) 0);
+
+        if (shifted > 256)
+            setCarryFlag((short) 1);
+        else
+            setCarryFlag((short) 0);
+
+        if (negativeFlagFetch() == 1) {
+            check = true;
+        } else {
+            check = false;
+        }
+
+        if (shifted == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
+
+        registers[r1] = (byte)shifted;
+
+    }
+
+    public void ShiftRightCircular(int r1, int imm){
+
+        Boolean check;
+
+        int num = dataMemoryFetcher(r1);
+        int shifted = (num>> imm | num<< 32-imm) -1;
+
+        if (shifted > 256)
+            setCarryFlag((short) 1);
+        else
+            setCarryFlag((short) 0);
+
+        if (shifted > 256)
+            setCarryFlag((short) 1);
+        else
+            setCarryFlag((short) 0);
+
+        if (negativeFlagFetch() == 1) {
+            check = true;
+        } else {
+            check = false;
+        }
+
+        if (shifted == 0)
+            setZeroFlag((short) 1);
+        else
+            setZeroFlag((short) 0);
+
+        registers[r1] = (byte)shifted;
+
+    }
+
+    public void LoadByte(int r1, int address){
+
+        r1 = dataMemoryFetcher(address);
+    }
+
+    public void StoreByte(Byte r1, int address){
+
+        dataMemoryWriter(address, r1);
+
+    }
+
+
 
 
     //----------------------------------------------------------------------------------------------------------------------
