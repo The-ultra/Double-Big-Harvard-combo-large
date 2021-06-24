@@ -12,7 +12,7 @@ public class executor {
     int programCounter = 0;
 
     public executor() {
-
+        parser("test.txt");
         function();
     }
 
@@ -295,7 +295,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0100" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
     public void parseAnd(String r1, String r2, int location) {
@@ -338,7 +338,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0101" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
     public void parseOr(String r1, String r2, int location) {
@@ -381,7 +381,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0110" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
     public void parseJR(String r1, String r2, int location) {
@@ -429,7 +429,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0111" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
     public void parseSLC(String r1, String r2, int location) {
@@ -472,7 +472,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "1000" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
     public void parseSRC(String r1, String r2, int location) {
@@ -525,7 +525,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "1001" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
     public void parseLB(String r1, String r2, int location) {
@@ -578,7 +578,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "1010" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
     public void parseSB(String r1, String r2, int location) {
@@ -631,7 +631,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "1011" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
 
@@ -961,30 +961,34 @@ public class executor {
         programCounter = k;
     }
 
-    public void loadByte(short R1, byte address) {
-        R1 = (short) dataMemoryFetcher(address);
-        byte r1 = (byte) R1;
-        dataRegWriter(R1, r1);
+    public void loadByte(short r1, byte address) {
+        byte value = (byte) dataMemoryFetcher(address);
+        dataRegWriter(r1,value);
+
+
+
     }
 
-    public void storeByte(short R1, int address) {
-        byte r1;
-        r1 = dataRegFetcher(R1);
-        dataMemoryWriter(address, r1);
+    public void storeByte(short r1, int address) {
+       byte value = dataRegFetcher(r1);
+
+        dataMemoryWriter(address,value);
 
     }
 
     public void ShiftRightCircular(short R1, short imm) {
 
-        Boolean check;
+
 
         int num = dataRegFetcher(R1);
         int shifted = (num >> imm | num << 32 - imm) - 1;
 
-        if (negativeFlagFetch() == 1) {
-            check = true;
+        if (shifted<0) {
+
+            setNegativeFlag((short) 1);
         } else {
-            check = false;
+
+            setNegativeFlag((short) 0);
         }
 
         if (shifted == 0)
@@ -998,15 +1002,14 @@ public class executor {
 
     public void ShiftLeftCircular(short R1, short imm) {
 
-        Boolean check = false;
-
         int num = dataRegFetcher(R1);
-        int shifted = (num << imm | num >> 32 - imm) - 1;
+        int shifted = (num << imm  | num >> 32 - imm) - 1;
 
-        if (negativeFlagFetch() == 1) {
-            check = true;
+        if (shifted<0) {
+            setNegativeFlag((short) 1);
         } else {
-            check = false;
+
+            setNegativeFlag((short) 0);
         }
 
         if (shifted == 0)
@@ -1021,7 +1024,7 @@ public class executor {
     // ----------------------------------------------------------------------------------------------------------------------
     // fetchers and writers.... why? someone would ask, well it's for pipelining.
     // just use them in the program
-    public Byte dataRegFetcher(Short rPos) {
+    public byte dataRegFetcher(Short rPos) {
         return registers[rPos];
 
     }
@@ -1030,24 +1033,13 @@ public class executor {
         registers[rPos] = value;
     }
 
-    public int dataMemoryFetcher(int mPos) {
+    public byte dataMemoryFetcher(byte mPos) {
         return dataMemory[mPos];
 
     }
 
     public void dataMemoryWriter(int mPos, Byte value) {
         dataMemory[mPos] = value;
-    }
-
-    public int instructionMemoryFetcher(int iMPos) {
-
-        return instructionMemory.get(iMPos);
-    }
-
-    public void instructionMemoryWriter(int iMPos, short value) {
-        if (iMPos > 1023)
-            return;
-        instructionMemory.set(iMPos, value);
     }
 //----------------------------------------------------------------------------------------------------------------------
     // flags in SREG
