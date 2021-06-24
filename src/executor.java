@@ -24,13 +24,12 @@ public class executor {
             FileInputStream fis = new FileInputStream(filename);
             Scanner sc = new Scanner(fis);    //file to be scanned
             // returns true if there is another line to read
-            int instructionLocation = 0;
+
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] parts = line.split(" ");
                 if (parts != null) {
-                    parsing(parts, instructionLocation);
-                    instructionLocation++;
+                    parsing(parts);
                     //returns the line that was skipped
                 }
             }
@@ -41,50 +40,50 @@ public class executor {
         }
     }
 
-    public void parsing(String[] parts, int location) {
+    public void parsing(String[] parts) {
         switch (parts[0]) {
 
             case "ADD":
-                parseAdd(parts[1], parts[2], location);
+                parseAdd(parts[1], parts[2]);
                 break;
             case "SUB":
-                parseSub(parts[1], parts[2], location);
+                parseSub(parts[1], parts[2]);
                 break;
             case "MUL":
-                parseMul(parts[1], parts[2], location);
+                parseMul(parts[1], parts[2]);
                 break;
             case "LDI":
-                parseLDI(parts[1], parts[2], location);
+                parseLDI(parts[1], parts[2]);
                 break;
             case "BEQZ":
-                parseBEQZ(parts[1], parts[2], location);
+                parseBEQZ(parts[1], parts[2]);
                 break;
             case "AND":
-                parseAnd(parts[1], parts[2], location);
+                parseAnd(parts[1], parts[2]);
                 break;
             case "OR":
-                parseOr(parts[1], parts[2], location);
+                parseOr(parts[1], parts[2]);
                 break;
             case "JR":
-                parseJR(parts[1], parts[2], location);
+                parseJR(parts[1], parts[2]);
                 break;
             case "SLC":
-                parseSLC(parts[1], parts[2], location);
+                parseSLC(parts[1], parts[2]);
                 break;
             case "SRC":
-                parseSRC(parts[1], parts[2], location);
+                parseSRC(parts[1], parts[2]);
                 break;
             case "LB":
-                parseLB(parts[1], parts[2], location);
+                parseLB(parts[1], parts[2]);
                 break;
             case "SB":
-                parseSB(parts[1], parts[2], location);
+                parseSB(parts[1], parts[2]);
                 break;
 
         }
     }
 
-    public void parseAdd(String r1, String r2, int location) {
+    public void parseAdd(String r1, String r2) {
 
         String addR1 = r1.substring(1);
         String addR2 = r2.substring(1);
@@ -123,10 +122,10 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0000" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseSub(String r1, String r2, int location) {
+    public void parseSub(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -166,10 +165,10 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0001" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseMul(String r1, String r2, int location) {
+    public void parseMul(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -209,10 +208,10 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0010" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseLDI(String r1, String r2, int location) {
+    public void parseLDI(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -252,10 +251,10 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0011" + addStr1 + addStr2;
-        instructionMemory.set(location, Short.parseShort(addFinalThing, 2));
+        instructionMemory.add( Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseBEQZ(String r1, String r2, int location) {
+    public void parseBEQZ(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -298,7 +297,7 @@ public class executor {
         instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseAnd(String r1, String r2, int location) {
+    public void parseAnd(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -341,7 +340,7 @@ public class executor {
         instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseOr(String r1, String r2, int location) {
+    public void parseOr(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -384,7 +383,7 @@ public class executor {
         instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseJR(String r1, String r2, int location) {
+    public void parseJR(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -432,7 +431,7 @@ public class executor {
         instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseSLC(String r1, String r2, int location) {
+    public void parseSLC(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -475,7 +474,7 @@ public class executor {
         instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseSRC(String r1, String r2, int location) {
+    public void parseSRC(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -528,7 +527,7 @@ public class executor {
         instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseLB(String r1, String r2, int location) {
+    public void parseLB(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
@@ -581,7 +580,7 @@ public class executor {
         instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
-    public void parseSB(String r1, String r2, int location) {
+    public void parseSB(String r1, String r2) {
 
 
         String addR1 = r1.substring(1);
