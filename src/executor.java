@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class executor {
-
+    boolean jump;
     ArrayList<Short> instructionMemory = new ArrayList<Short>(1023);
     Byte dataMemory[] = new Byte[2047];
     Byte[] registers = new Byte[63];
@@ -295,7 +295,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0100" + addStr1 + addStr2;
-        instructionMemory.add( Short.parseShort(addFinalThing, 2));
+        instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
     public void parseAnd(String r1, String r2, int location) {
@@ -338,7 +338,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0101" + addStr1 + addStr2;
-        instructionMemory.add( Short.parseShort(addFinalThing, 2));
+        instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
     public void parseOr(String r1, String r2, int location) {
@@ -381,7 +381,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0110" + addStr1 + addStr2;
-        instructionMemory.add( Short.parseShort(addFinalThing, 2));
+        instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
     public void parseJR(String r1, String r2, int location) {
@@ -429,7 +429,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "0111" + addStr1 + addStr2;
-        instructionMemory.add( Short.parseShort(addFinalThing, 2));
+        instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
     public void parseSLC(String r1, String r2, int location) {
@@ -472,7 +472,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "1000" + addStr1 + addStr2;
-        instructionMemory.add( Short.parseShort(addFinalThing, 2));
+        instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
     public void parseSRC(String r1, String r2, int location) {
@@ -525,7 +525,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "1001" + addStr1 + addStr2;
-        instructionMemory.add( Short.parseShort(addFinalThing, 2));
+        instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
     public void parseLB(String r1, String r2, int location) {
@@ -578,7 +578,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "1010" + addStr1 + addStr2;
-        instructionMemory.add( Short.parseShort(addFinalThing, 2));
+        instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
     public void parseSB(String r1, String r2, int location) {
@@ -631,7 +631,7 @@ public class executor {
             addStr2 = "0" + addStr2;
         }
         String addFinalThing = "1011" + addStr1 + addStr2;
-        instructionMemory.add( Short.parseShort(addFinalThing, 2));
+        instructionMemory.add(Short.parseShort(addFinalThing, 2));
     }
 
 
@@ -641,6 +641,11 @@ public class executor {
         Short fetchGetter = null;
 
         while (programCounter < instructionMemory.size() - 1) {
+            if (jump) {
+                decoded = null;
+                fetchGetter = null;
+                jump = false;
+            }
             execute(decoded);////// msh elmafrood en heya fel awl beteb2a null?
             decoded = decode(fetchGetter);
             fetchGetter = fetch();
@@ -913,6 +918,7 @@ public class executor {
     public void branchIfEq(short r1, Byte imm) {
         if (r1 == 0) {
             programCounter = programCounter + 1 + imm;
+            jump = true;
         }
     }
 
@@ -959,31 +965,30 @@ public class executor {
         int y = (int) num2;
         int k = Integer.valueOf(String.valueOf(x) + String.valueOf(y));
         programCounter = k;
+        jump = true;
     }
 
     public void loadByte(short r1, byte address) {
         byte value = (byte) dataMemoryFetcher(address);
-        dataRegWriter(r1,value);
-
+        dataRegWriter(r1, value);
 
 
     }
 
     public void storeByte(short r1, int address) {
-       byte value = dataRegFetcher(r1);
+        byte value = dataRegFetcher(r1);
 
-        dataMemoryWriter(address,value);
+        dataMemoryWriter(address, value);
 
     }
 
     public void ShiftRightCircular(short R1, short imm) {
 
 
-
         int num = dataRegFetcher(R1);
         int shifted = (num >> imm | num << 32 - imm) - 1;
 
-        if (shifted<0) {
+        if (shifted < 0) {
 
             setNegativeFlag((short) 1);
         } else {
@@ -1003,9 +1008,9 @@ public class executor {
     public void ShiftLeftCircular(short R1, short imm) {
 
         int num = dataRegFetcher(R1);
-        int shifted = (num << imm  | num >> 32 - imm) - 1;
+        int shifted = (num << imm | num >> 32 - imm) - 1;
 
-        if (shifted<0) {
+        if (shifted < 0) {
             setNegativeFlag((short) 1);
         } else {
 
@@ -1044,10 +1049,7 @@ public class executor {
 //----------------------------------------------------------------------------------------------------------------------
     // flags in SREG
 
-    public int zeroFlagFetch() {
 
-        return statusReg[0];
-    }
 
     public void setZeroFlag(short value) {
 
@@ -1058,9 +1060,7 @@ public class executor {
 
     }
 
-    public int signFlagFetch() {
-        return statusReg[1];
-    }
+
 
     public void setSignFlag(short value) {
         if (value == 0 || value == 1) {
@@ -1094,9 +1094,7 @@ public class executor {
 
     }
 
-    public int carryFlagFetch() {
-        return statusReg[4];
-    }
+
 
     public void setCarryFlag(short value) {
         if (value == 0 || value == 1) {
