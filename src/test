@@ -1,0 +1,4 @@
+LDI r1 23
+LDI r2 23
+add r1 r2
+

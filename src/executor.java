@@ -649,6 +649,7 @@ public class executor {
             decoded = decode(fetchGetter);
             fetchGetter = fetch();
             programCounter++;
+            System.out.println(programCounter);
         }
 
     }
