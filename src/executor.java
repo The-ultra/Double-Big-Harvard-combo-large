@@ -34,31 +34,34 @@ public class executor {
 	}
 
 	public ArrayList decode(Short instruction) {
-		ArrayList<Short> output = null;
+		if (instruction != null) {
+			ArrayList<Short> output = null;
 
-		short address;
-		short opcode;
-		short r1;
-		short r2;
-		short imm;
+			short opcode;
+			short r1;
+			short r2;
+			short imm;
 
-		opcode = (short) ((instruction & 0b1111000000000000) >> 12);
-		r1 = (short) ((instruction & 0b0000111111000000) >> 6);
-		r2 = (short) ((instruction & 0b0000000000111111) >> 0);
-		imm = (short) ((instruction & 0b0000000000111111) >> 0);
+			opcode = (short) ((instruction & 0b1111000000000000) >> 12);
+			r1 = (short) ((instruction & 0b0000111111000000) >> 6);
+			r2 = (short) ((instruction & 0b0000000000111111) >> 0);
+			imm = (short) ((instruction & 0b0000000000111111) >> 0);
 
-		output.add(opcode); // pos 0
-		output.add(r1); // pos 1
-		output.add(r2); // pos 2
-		output.add(imm); // pos 3
+			output.add(opcode); // pos 0
+			output.add(r1); // pos 1
+			output.add(r2); // pos 2
+			output.add(imm); // pos 3
 
-		return output;
+			return output;
 
+		}
+		return null;
 	}
 
 	public void execute(ArrayList<Object> input) {
 		// this Decides using the value of opcode upon which function to execute
 		// thus if opcode == 0 then it adds, if 1 it subtracts and so on
+		if(input != null){
 		switch ((short)input.get(0)) {
 		case 0:
 			short r1 = (short)input.get(1);
@@ -112,14 +115,15 @@ public class executor {
 			ShiftRightCircular(r1, imm);
 			break;
 		case 10:
-//			r1 = (short)input.get(1);
-//			loadByte(r1, address);
+			r1 = (short)input.get(1);
+			loadByte(r1, (byte)input.get(3));
 			break;
 		case 11:
-//			r1 = (short)input.get(1);
-//			storeByte(r1, address);
+			r1 = (short)input.get(1);
+			storeByte(r1, (byte)input.get(3));
 			break;
 
+		}
 		}
 	}
 
@@ -335,7 +339,7 @@ public class executor {
 		programCounter = k;
 	}
 
-	public void loadByte(short R1, int address) {
+	public void loadByte(short R1, byte address) {
 		R1 = (short) dataMemoryFetcher(address);
 		byte r1 = (byte) R1;
 		dataRegWriter(R1, r1);
