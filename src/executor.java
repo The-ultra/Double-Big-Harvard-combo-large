@@ -14,7 +14,7 @@ public class executor {
 	int programCounter = 0;
 
 	public executor() {
-		parser("testing");
+		parser("C:\\Users\\Ahmed Hamouda\\Documents\\GitHub\\Double-Big-Harvard-combo-large\\src\\testing.txt");
 		function();
 	}
 	
