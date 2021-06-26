@@ -8,9 +8,9 @@ public class main {
 
 	public static void main(String[] args) {
 		executor exec = new executor();
-
-		System.out.println(exec.instructionMemory.size());
-		exec.dataMemory.toString();
+//
+//		System.out.println(exec.instructionMemory.size());
+//		exec.dataMemory.toString();
 
 	}
 

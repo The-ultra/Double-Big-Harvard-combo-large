@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -26,10 +27,11 @@ public class executor {
 		try {
 			reader = new BufferedReader(new FileReader(filePath));
 			while ((line = reader.readLine()) != null) {
+
 				parsing(line.split(" "));
-				lines.add(line.split(" "));
+
 			}
-			System.out.println(filePath + " was read succesfuly");//// comment this after being done
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -45,36 +47,11 @@ public class executor {
 		
 	}
 
-//	public void parser(String filename) {
-//		
-//
-//		try {
-//			// the file to be opened for reading
-//			FileInputStream fis = new FileInputStream(filename);
-//			Scanner sc = new Scanner(fis); // file to be scanned
-//			// returns true if there is another line to read
-//
-//			while (sc.hasNextLine()) {
-//				String line = sc.nextLine();
-//				String[] parts = line.split(" ");
-//				if (parts != null) {
-//					parsing(parts);
-//					// returns the line that was skipped
-//				}
-//			}
-//			sc.close(); // closes the scanner
-//		} catch (IOException e) {
-//
-//			System.out.print("end of lines");
-//			e.printStackTrace();
-//		}
-//		
-//	}
-
 	public void parsing(String[] parts) {
 		switch (parts[0]) {
 
 		case "ADD":
+
 			parseAdd(parts[1], parts[2]);
 			break;
 		case "SUB":
@@ -117,7 +94,7 @@ public class executor {
 			if(instructionMemory.get(i)!= null)
 			x = x + i + instructionMemory.get(i).toString() + "\n";
 					}
-		System.out.println(x);
+
 	}
 
 	public void parseAdd(String r1, String r2) {
@@ -127,37 +104,36 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+
+		 if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 2)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= (Math.pow(2, 3)))) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= (Math.pow(2, 3)))) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= (Math.pow(2, 4)))) {
 			addStr2 = "00" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= (Math.pow(2, 5)))) {
 			addStr2 = "0" + addStr2;
 		}
 		String addFinalThing = "0000" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseSub(String r1, String r2) {
@@ -167,37 +143,38 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+
+
+
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
+
 		String addFinalThing = "0001" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseMul(String r1, String r2) {
@@ -207,37 +184,34 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
-		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		String addStr2 = Integer.toBinaryString(addTheR2);
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "0010" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseLDI(String r1, String r2) {
@@ -246,38 +220,41 @@ public class executor {
 		String addR2 = r2;
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
+
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+
+		if ((Integer.parseInt(addStr1,2)  <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1))		 {
 			addStr2 = "00000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
+
+
+
+
 		String addFinalThing = "0011" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseBEQZ(String r1, String r2) {
@@ -287,37 +264,34 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "0100" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseAnd(String r1, String r2) {
@@ -327,37 +301,34 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "0101" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseOr(String r1, String r2) {
@@ -367,37 +338,34 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "0110" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseJR(String r1, String r2) {
@@ -407,42 +375,33 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
-
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "0111" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseSLC(String r1, String r2) {
@@ -452,37 +411,33 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
-
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		} else if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		} else if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "1000" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseSRC(String r1, String r2) {
@@ -492,47 +447,34 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "1001" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseLB(String r1, String r2) {
@@ -542,47 +484,39 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		}else
+		if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		}else
+
+		if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		}else
+		if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		}else
+		if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "1010" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void parseSB(String r1, String r2) {
@@ -592,93 +526,130 @@ public class executor {
 		int addTheR1 = Integer.parseInt(addR1);
 		int addTheR2 = Integer.parseInt(addR2);
 		String addStr1 = Integer.toBinaryString(addTheR1);
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 0)))) {
+
+
+
+		if ((Integer.parseInt(addStr1,2) <= 1)) {
 			addStr1 = "00000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 3)) {
 			addStr1 = "0000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 7)) {
 			addStr1 = "000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 3)))) {
-			addStr1 = "000" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 15)) {
 			addStr1 = "00" + addStr1;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr1 = "0" + addStr1;
 		}
 
 		String addStr2 = Integer.toBinaryString(addTheR2);
 
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 0)))) {
+		if ((Integer.parseInt(addStr2,2) <= 1)) {
 			addStr2 = "00000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 1)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 3)) {
 			addStr2 = "0000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 7)) {
 			addStr2 = "000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 3)))) {
-			addStr2 = "000" + addStr2;
-		}
-		if ((Integer.parseInt(addStr1) <= (Math.pow(2, 4)))) {
+		} else if ((Integer.parseInt(addStr2,2) <= 15)) {
 			addStr2 = "00" + addStr2;
-		}
-		if ((Integer.parseInt(addStr2) <= (Math.pow(2, 5)))) {
+		} else if ((Integer.parseInt(addStr1,2) <= 31)) {
 			addStr2 = "0" + addStr2;
 		}
+
 		String addFinalThing = "1011" + addStr1 + addStr2;
-		instructionMemory.add("" + Short.parseShort(addFinalThing, 2));
+		instructionMemory.add(addFinalThing);
 	}
 
 	public void function() {
 
-		ArrayList decoded = null;
-		String fetchGetter = null;
+		Object decoded = null;
+		String fetchGetter =null;
 
-		while (programCounter < instructionMemory.size() - 1) {
+		while (programCounter < instructionMemory.size()+2) {
+			System.out.println("/------------------------------------------");
+			System.out.println("Current Clock Cycle:" + programCounter);
+			System.out.println("/------------------------------------------");
 			if (jump) {
 				decoded = null;
 				fetchGetter = null;
 				jump = false;
 			}
-			execute(decoded);////// msh elmafrood en heya fel awl beteb2a null?
-			decoded = decode(fetchGetter);
+
+			if (decoded != null) {
+				execute(decoded);////// msh elmafrood en heya fel awl beteb2a null?
+			}
+			if (fetchGetter!= null){
+				decoded = decode(fetchGetter);
+		}
 			fetchGetter = fetch();
+
+			System.out.println("/------------------------------------------");
+			System.out.println("Register content except nulls:");
+			for(int i = 0;i<registers.length; i++){
+				if(registers[i]!=null){
+					System.out.println("Content of R"+i+ " is "+registers[i]);
+				}
+			}
+			System.out.println("/------------------------------------------");
+			System.out.println("instruction Memory content except nulls:");
+			for(int i = 0;i<instructionMemory.size(); i++){
+				if(instructionMemory.get(i)!=null){
+					System.out.println("Content At " + i + " is "+ instructionMemory.get(i));
+				}
+			}
+			System.out.println("/------------------------------------------");
+			System.out.println("Data Memory content except nulls:");
+			for(int i = 0;i<dataMemory.length; i++){
+				if(dataMemory[i] !=null){
+					System.out.println("Content At " + i + " is "+ dataMemory[i]);
+				}
+			}
+
+			System.out.println("/------------------------------------------");
+
 			programCounter++;
-			System.out.println(programCounter);
+
 		}
 
 	}
 
 	public String fetch() {
 
-		return instructionMemory.get(programCounter);
+		if (programCounter<instructionMemory.size()) {
+			System.out.println("/------------------------------------------");
+			System.out.println("fetching: "+instructionMemory.get(programCounter));
+			System.out.println("/------------------------------------------");
+			return instructionMemory.get(programCounter);
 
+		}else
+			return null;
 	}
 
 	public ArrayList decode(String instruction) {
-		if (instruction != null) {
-			ArrayList<Short> output = null;
 
-			short opcode;
-			short r1;
-			short r2;
-			short imm;
+		if (instruction != null) {
+			System.out.println("/------------------------------------------");
+			System.out.println("instruction "+instruction+" is being decoded");
+			System.out.println("/------------------------------------------");
+			ArrayList<Object> output = new ArrayList<Object>();
+			Short opcode;
+			Short r1;
+			Short r2;
+			Byte imm;
 
 			opcode = Short.parseShort(instruction.substring(0, 4), 2);
 			r1 = Short.parseShort(instruction.substring(4, 10), 2);
-			r2 = Short.parseShort(instruction.substring(10, 15), 2);
-			imm = Short.parseShort(instruction.substring(10, 15), 2);
+			r2 = Short.parseShort(instruction.substring(10, 16), 2);
+			imm = Byte.parseByte(instruction.substring(10, 16), 2);
 
 			output.add(opcode); // pos 0
 			output.add(r1); // pos 1
 			output.add(r2); // pos 2
 			output.add(imm); // pos 3
+
+			System.out.println("/------------------------------------------");
+			System.out.println("Decoded Instruction is "+output);
+			System.out.println("/------------------------------------------");
+
 
 			return output;
 
@@ -686,72 +657,117 @@ public class executor {
 		return null;
 	}
 
-	public void execute(ArrayList<Object> input) {
+	public void execute(Object instruction) {
 		// this Decides using the value of opcode upon which function to execute
 		// thus if opcode == 0 then it adds, if 1 it subtracts and so on
-		if (input != null) {
+		if (instruction != null) {
+			System.out.println("Executing Input is "+instruction );
+			ArrayList input = (ArrayList) instruction;
+
 			switch ((short) input.get(0)) {
 			case 0:
 				short r1 = (short) input.get(1);
 				short r2 = (short) input.get(2);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing Add "+input.get(1)+" "+input.get(2));
+				System.out.println("/------------------------------------------");
 				add(r1, r2);
 				break;
 			case 1:
 				r1 = (short) input.get(1);
+
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing sub "+input.get(1)+" "+input.get(2));
+				System.out.println("/------------------------------------------");
+
 				r2 = (short) input.get(2);
 				sub(r1, r2);
 
 				break;
 			case 2:
 				r1 = (short) input.get(1);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing mult "+input.get(1)+" "+input.get(2));
+				System.out.println("/------------------------------------------");
 				r2 = (short) input.get(2);
 				mult(r1, r2);
 				break;
 			case 3:
 				r1 = (short) input.get(1);
-				byte imm = (byte) input.get(3);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing LDI "+input.get(1)+" "+input.get(3));
+				System.out.println("/------------------------------------------");
+
+				Byte imm = (Byte) input.get(3);
 				loadImm(r1, imm);
 				break;
 			case 4:
-				r1 = (short) input.get(1);
-				imm = (byte) input.get(3);
+				r1 = (Short) input.get(1);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing BEQZ "+input.get(1)+" "+input.get(3));
+				System.out.println("/------------------------------------------");
+				imm = (Byte) input.get(3);
 				branchIfEq(r1, imm);
 				break;
 			case 5:
 				r1 = (short) input.get(1);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing and on r"+input.get(1)+" r"+input.get(2));
+				System.out.println("/------------------------------------------");
 				r2 = (short) input.get(2);
 				and(r1, r2);
 				break;
 			case 6:
 				r1 = (short) input.get(1);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing or on r"+input.get(1)+" r"+input.get(2));
+				System.out.println("/------------------------------------------");
 				r2 = (short) input.get(2);
 				or(r1, r2);
 				break;
 			case 7:
 				r1 = (short) input.get(1);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing JR using r"+input.get(1)+" and r"+input.get(2));
+				System.out.println("/------------------------------------------");
 				r2 = (short) input.get(2);
 				jumpReg(r1, r2);
 				break;
 			case 8:
 				r1 = (short) input.get(1);
-				imm = (byte) input.get(3);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing SLC on r"+input.get(1)+" "+input.get(3)+" bits");
+				System.out.println("/------------------------------------------");
+				imm = (Byte) input.get(3);
 				ShiftLeftCircular(r1, imm);
 				break;
 			case 9:
 				r1 = (short) input.get(1);
-				imm = (byte) input.get(3);
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing SRC on r"+input.get(1)+" "+input.get(3)+" bits");
+				System.out.println("/------------------------------------------");
+				imm = (Byte) input.get(3);
 				ShiftRightCircular(r1, imm);
 				break;
 			case 10:
 				r1 = (short) input.get(1);
-				loadByte(r1, (byte) input.get(3));
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing LB on r"+input.get(1)+"at Data Memory "+input.get(3));
+				System.out.println("/------------------------------------------");
+				loadByte(r1, (Byte) input.get(3));
 				break;
 			case 11:
 				r1 = (short) input.get(1);
-				storeByte(r1, (byte) input.get(3));
+				System.out.println("/------------------------------------------");
+				System.out.println("Executing SB on r"+input.get(1)+"at Data Memory "+input.get(3));
+				System.out.println("/------------------------------------------");
+				storeByte(r1, (Byte) input.get(3));
 				break;
 
 			}
+			System.out.println("/------------------------------------------");
+			System.out.println("Status Register Value is"+statusReg);
+			System.out.println("/------------------------------------------");
 		}
 	}
 
@@ -804,7 +820,7 @@ public class executor {
 			setZeroFlag((short) 0);
 
 		registers[r1] = (byte) temp1;
-		System.out.println("change");
+		dataRegWriter(r1,(byte) temp1);
 
 		// adds r1 to r2 and then store in r1 location
 	}
@@ -858,7 +874,7 @@ public class executor {
 		else
 			setZeroFlag((short) 0);
 
-		registers[r1] = (byte) temp;
+		dataRegWriter(r1,(byte) temp);
 	}
 
 	public void mult(short r1, short r2) {
@@ -909,11 +925,11 @@ public class executor {
 		else
 			setZeroFlag((short) 0);
 
-		registers[r1] = (byte) temp;
+		dataRegWriter(r1,(byte) temp);
 	}
 
 	public void loadImm(short r1, Byte imm) {
-		registers[r1] = imm;
+		dataRegWriter(r1,(byte) imm);
 	}
 
 	public void branchIfEq(short r1, Byte imm) {
@@ -937,8 +953,8 @@ public class executor {
 			setZeroFlag((short) 1);
 		else
 			setZeroFlag((short) 0);
+		dataRegWriter(r1,(byte) temp1);
 
-		registers[r1] = (byte) temp1;
 	}
 
 	public void or(short r1, short r2) {
@@ -956,7 +972,8 @@ public class executor {
 		else
 			setZeroFlag((short) 0);
 
-		registers[r1] = (byte) temp1;
+
+		dataRegWriter(r1,(byte) temp1);
 	}
 
 	public void jumpReg(short r1, short r2) {
@@ -969,13 +986,13 @@ public class executor {
 		jump = true;
 	}
 
-	public void loadByte(short r1, byte address) {
+	public void loadByte(short r1, Byte address) {
 		byte value = (byte) dataMemoryFetcher(address);
 		dataRegWriter(r1, value);
 
 	}
 
-	public void storeByte(short r1, int address) {
+	public void storeByte(short r1, Byte address) {
 		byte value = dataRegFetcher(r1);
 
 		dataMemoryWriter(address, value);
@@ -985,7 +1002,7 @@ public class executor {
 	public void ShiftRightCircular(short R1, short imm) {
 
 		int num = dataRegFetcher(R1);
-		int shifted = (num >> imm | num << 32 - imm) - 1;
+		int shifted = (num >> imm | num << 8 - imm);
 
 		if (shifted < 0) {
 
@@ -1007,7 +1024,7 @@ public class executor {
 	public void ShiftLeftCircular(short R1, short imm) {
 
 		int num = dataRegFetcher(R1);
-		int shifted = (num << imm | num >> 32 - imm) - 1;
+		int shifted = (num << imm | num >> 8 - imm);
 
 		if (shifted < 0) {
 			setNegativeFlag((short) 1);
@@ -1028,13 +1045,14 @@ public class executor {
 	// ----------------------------------------------------------------------------------------------------------------------
 	// fetchers and writers.... why? someone would ask, well it's for pipelining.
 	// just use them in the program
-	public byte dataRegFetcher(Short rPos) {
-		return registers[rPos];
+		public byte dataRegFetcher(Short rPos) {
+			return registers[rPos];
 
-	}
+		}
 
 	public void dataRegWriter(int rPos, Byte value) {
 		registers[rPos] = value;
+		System.out.println("register r"+rPos+"was changed to"+value);
 	}
 
 	public byte dataMemoryFetcher(byte mPos) {
@@ -1044,24 +1062,25 @@ public class executor {
 
 	public void dataMemoryWriter(int mPos, Byte value) {
 		dataMemory[mPos] = value;
+		System.out.println("data memory was changed at "+mPos+"to"+value);
 	}
 //----------------------------------------------------------------------------------------------------------------------
 	// flags in SREG
 
 	public void setZeroFlag(short value) {
 
-		if (value == 0 || value == 1) {
+
 			statusReg[0] = value;
-		} else
-			System.out.println("Insert correct value please");
+
+
 
 	}
 
 	public void setSignFlag(short value) {
-		if (value == 0 || value == 1) {
+
 			statusReg[1] = value;
-		} else
-			System.out.println("Insert correct either 1 or 0 please");
+
+
 
 	}
 
@@ -1070,10 +1089,10 @@ public class executor {
 	}
 
 	public void setNegativeFlag(short value) {
-		if (value == 0 || value == 1) {
+
 			statusReg[2] = value;
-		} else
-			System.out.println("Insert correct either 1 or 0 please");
+
+
 
 	}
 
@@ -1082,44 +1101,23 @@ public class executor {
 	}
 
 	public void twoComplementOverflowFlag(short value) {
-		if (value == 0 || value == 1) {
+
 			statusReg[3] = value;
-		} else
-			System.out.println("Insert correct either 1 or 0 please");
+
+
 
 	}
 
 	public void setCarryFlag(short value) {
 		
-		if (value == 0 || value == 1) {
+
 			statusReg[4] = value;
 			
-		} else
-			System.out.println("Insert correct either 1 or 0 please");
+
+
 
 	}
-	public static void main(String[] args) {
-		
-	}
 
-	
-//	public String toString() {
-//		String x = "\n";
-//		x = x + "instructionMemory" + "\n" + "\n";
-//
-//		for (int i = 0; i < instructionMemory.size(); i++) {
-//
-//			x = x + i + instructionMemory.get(i).toString() + "\n";
-//		}
-//		for (int i = 0; i < dataMemory.length; i++) {
-//
-//			x = x + i + dataMemory[i] + "\n";
-//		}
-//		for (int i = 0; i < registers.length; i++) {
-//
-//			x = x + i + registers[i] + "\n";
-//		}
-//
-//		return x;
-//	}
+
+
 }

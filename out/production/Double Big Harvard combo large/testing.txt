@@ -1,3 +1,34 @@
 LDI r1 23
 LDI r2 23
-add r1 r2
+LDI r3 23
+LDI R4 1
+LDI r5 16
+LDI r6 0
+ADD r1 r2
+ADD r2 r3
+ADD r1 r3
+SUB r2 r3
+BEQZ r1 11
+SUB r1 r4
+AND r1 r3
+OR r1 r2
+OR r1 r2
+OR r1 r2
+JR r6 r5
+SLC r3 2
+SRC r4 1
+SB r1 5
+LB r4 5
+
+
+
+
+
+
+
+
+
+
+
+
+
